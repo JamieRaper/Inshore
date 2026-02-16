@@ -1,8 +1,8 @@
 ## 29 Bycatch calculations 2023 (for 2020-2021 fishery)
 
-direct <- "Y:/Inshore/SFA29/2025/Assessment/Data/CommercialData/Bycatch/"
+direct <- "Y:/Inshore/SFA29/2026/Assessment/Data/CommercialData/Bycatch/"
 
-discards <- read.csv(paste0(direct, "discard sums from sql_2024.csv"))
+discards <- read.csv(paste0(direct, "discard sums from sql_2025.csv"))
 names(discards)
 
 groups <- read.csv(paste0(direct, "bycatch species groups.csv"))
@@ -31,11 +31,11 @@ joined[is.na(joined$GROUP),]
 # joined[is.na(joined$GROUP) & joined$COMMON == "PAGUROIDEA S.F.",]$GROUP <- "HERMIT CRABS"
 # joined[is.na(joined$GROUP) & joined$COMMON == "SHORT LOBSTER",]$GROUP <- "UNIDENT CRUSTACEANS"
 
-joined[is.na(joined$GROUP) & joined$COMMON == "SCALLOPS",]$GROUP <- "SEA SCALLOP"
-joined[is.na(joined$GROUP) & joined$COMMON == "PURPLE SUNSTAR",]$GROUP <- "STARFISH"
-joined[is.na(joined$GROUP) & joined$COMMON == "CUCUMARIA FRONDOSA",]$GROUP <- "SEA CUCUMBERS"
-joined[is.na(joined$GROUP) & joined$COMMON == "NEW ENGLAND NEPTUNE",]$GROUP <- "WHELKS"
-joined[is.na(joined$GROUP) & joined$COMMON == "GRUBBY OR LITTLE SCULPIN",]$GROUP <- "SCULPINS"
+# joined[is.na(joined$GROUP) & joined$COMMON == "SCALLOPS",]$GROUP <- "SEA SCALLOP"
+# joined[is.na(joined$GROUP) & joined$COMMON == "PURPLE SUNSTAR",]$GROUP <- "STARFISH"
+# joined[is.na(joined$GROUP) & joined$COMMON == "CUCUMARIA FRONDOSA",]$GROUP <- "SEA CUCUMBERS"
+# joined[is.na(joined$GROUP) & joined$COMMON == "NEW ENGLAND NEPTUNE",]$GROUP <- "WHELKS"
+# joined[is.na(joined$GROUP) & joined$COMMON == "GRUBBY OR LITTLE SCULPIN",]$GROUP <- "SCULPINS"
 
 # Now, go back and add these to the bycatch species groups.csv table so that we get these joined properly next time. 
 
@@ -53,7 +53,7 @@ groupedsums_allareas <- ddply(.data=groupedsums, .(GROUP),
                               summarize,
                               total=sum(total, na.rm=T))
 
-write.csv(groupedsums_allareas, paste0(direct, "groupedsums_allareas_2024.csv"))
+write.csv(groupedsums_allareas, paste0(direct, "groupedsums_allareas_2025.csv"))
 
 #The below is not required for basic bycatch analysis
 ### compare rates over time series

@@ -48,7 +48,7 @@ AND b.fishset_id = f.fishset_id
 AND x.fishset_id = f.fishset_id
 AND y.tripcd_id = 4320
 AND f.pntcd_id = 2  /*can set to 2 or 3*/
-AND y.board_date BETWEEN '2023-10-01' AND '2024-09-30'
+AND y.board_date BETWEEN '2024-10-01' AND '2025-09-30'
 AND g.cfv  NOT IN ('108626','152320', '106881', '105736','105912','105457','106604','106605','4062','102056','1579','102056','4055','101965','4031','1516','1518','1548','4050') /*list of offshore scallop vrns that have been observed trips*/
 order by trip, set_no
 ) 
