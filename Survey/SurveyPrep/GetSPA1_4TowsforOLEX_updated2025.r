@@ -7,8 +7,8 @@ require(tidyverse)
 
 #### DEFINE ####
 
-year <- 2025
-prev.yr <- 2024
+year <- 2026
+prev.yr <- 2025
 un.ID=Sys.getenv("un.raperj") #ptran username
 pwd.ID=Sys.getenv("pw.raperj") #ptran password
 
@@ -16,12 +16,15 @@ pwd.ID=Sys.getenv("pw.raperj") #ptran password
 #### LOAD ####
 
 #Load functions
-source("Y:/Inshore/Survey/survey design R scripts/amyalloc.poly.r")
-source("Y:/Inshore/BoF/Assessment_fns/convert.dd.dddd.r")
+#source("Y:/Inshore/Survey/survey design R scripts/amyalloc.poly.r")
+#source("Y:/Inshore/BoF/Assessment_fns/convert.dd.dddd.r")
 
 funcs <- c("https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/convert_coords.R",
            "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/add_alpha_function.R",
-           "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/pectinid_projector_sf.R")
+           "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/pectinid_projector_sf.R",
+           "https://raw.githubusercontent.com/Mar-scal/Inshore/refs/heads/main/Survey/SurveyPrep/amyalloc.poly.r",
+           "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/refs/heads/master/Survey_and_OSAC/convert.dd.dddd.r")
+           
 dir <- getwd()
 for(fun in funcs) 
 {
@@ -32,7 +35,7 @@ for(fun in funcs)
 }
 
 #Load poly data
-newAreaPolys<-read.csv("Y:/Inshore/Survey/2010/r//NewAreaDefsforISAREADEFS.csv") #?may not be required
+#newAreaPolys<-read.csv("Y:/Inshore/Survey/2010/r//NewAreaDefsforISAREADEFS.csv") #?may not be required
 HSI.poly<-read.csv("Y:/Inshore/Survey/2010/r/BOFsurveyBoundingPoly.csv")
 
 #Load station allocation file
@@ -104,8 +107,9 @@ SPA1str.data$repeats<-NA
 SPA4str.data<-subset(BOFstr.data,PID%in%c(1:5,8:10))
 S_h<-with(subset(surv.dat.prevyr,STRATA_ID%in%SPA4str.data$PID&year==prev.yr),tapply(totcomm,STRATA_ID,sd))
 
-# !!! In 2025, variance too high in stratum 8 for station allocation, adjust to 0.6*sd !!!
-#S_h[6] <- 0.6*S_h[6]
+# !!! In 2025 and 2026, variance too high in stratum 8 for station allocation, adjust to 0.6*sd !!!
+S_h[1] <- 0.6*S_h[1]
+S_h[6] <- 0.6*S_h[6]
 
 #Allocate SPA 4 stations - min 3 per stratum, remove 3 stations for each stratum (3x8=46) and add back after allocation
 N.SPA4<-70-24
@@ -134,10 +138,6 @@ head(BFtows.newyr$Tows$new.tows)
 
 p <- pecjector(obj = NULL, area = "bof",plot = T, 
           add_layer = list(land = 'grey',eez = 'eez', bathy = 50, survey = c('inshore','outline'),scale.bar = 'bl',scale.bar = c('bl',0.5)))
-
-p <- pecjector(obj = NULL, area = "bof",plot = T, 
-               add_layer = list(land = 'grey',eez = 'eez', survey = c('inshore','outline'),scale.bar = 'bl',scale.bar = c('bl',0.5)))
-
 p +
   geom_point(BFtows.newyr$Tows$new.tows, mapping = aes(X, Y)) +
   geom_point(BFtows.newyr$Tows$repeated.tows, mapping = aes(X, Y, colour = "red"))

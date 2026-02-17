@@ -7,8 +7,8 @@ require(tidyverse)
 
 #### DEFINE ####
 
-year <- 2025
-prev.yr <- 2024
+year <- 2026
+prev.yr <- 2025
 un.ID=Sys.getenv("un.raperj") #ptran username
 pwd.ID=Sys.getenv("pw.raperj") #ptran password
 
@@ -16,11 +16,14 @@ pwd.ID=Sys.getenv("pw.raperj") #ptran password
 #### LOAD ####
 
 #Load functions
-source("Y:/Inshore/BoF/Assessment_fns/convert.dd.dddd.r")
-source("Y:/Inshore/Survey/survey design R scripts/amyalloc.poly.r")
+#source("Y:/Inshore/BoF/Assessment_fns/convert.dd.dddd.r")
+#source("Y:/Inshore/Survey/survey design R scripts/amyalloc.poly.r")
+
 funcs <- c("https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/convert_coords.R",
            "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/add_alpha_function.R",
-           "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/pectinid_projector_sf.R")
+           "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/master/Maps/pectinid_projector_sf.R",
+           "https://raw.githubusercontent.com/Mar-scal/Inshore/refs/heads/main/Survey/SurveyPrep/amyalloc.poly.r",
+           "https://raw.githubusercontent.com/Mar-scal/Assessment_fns/refs/heads/master/Survey_and_OSAC/convert.dd.dddd.r")
 dir <- getwd()
 for(fun in funcs) 
 {
