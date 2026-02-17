@@ -199,11 +199,11 @@ facet_names <- c(
 medians <- ddply(comm.dat.subarea[which(comm.dat.subarea$year != fishingyear),], .(fleet, area), summarise, median = median(cpue.kgh, na.rm = TRUE)) #Create df of median cpue by fleet and area
 
 ggplot(filter(comm.dat.subarea), aes(x = year, y = cpue.kgh)) +
-  theme_bw(base_size = 16) +  
+  theme_bw(base_size = 16) + theme(panel.grid.minor.x = element_blank()) +  
   geom_point(aes(colour = fleet, shape = fleet)) +
   geom_line(aes(colour = fleet)) +
   geom_hline(data=medians, aes(yintercept=median, colour = fleet), linetype = "dashed") +
-  scale_x_continuous("Year", breaks = seq(2002,fishingyear,4)) +
+  scale_x_continuous("Year", breaks = seq(2002,2026,6), limits = c(2000, 2027)) +
   scale_y_continuous("Catch Rate (kg/h)", limits = c(0,120), breaks = seq(0,120,20)) +
   scale_colour_manual(values = c("black", "red"), labels = c("Full Bay", "East of Baccaro")) +
   scale_linetype_manual(values = c(1,2), labels = c("Full Bay", "East of Baccaro")) +
@@ -225,7 +225,7 @@ write.csv(medians.area, paste0(direct,"/",assessmentyear,"/Assessment/Data/Comme
 
 #plot
 ggplot(comm.dat.combined) +
-  theme_bw(base_size = 16) + theme(panel.grid=element_blank()) +  
+  theme_bw(base_size = 16) + theme(panel.grid.minor.x = element_blank()) +  
   theme(axis.line.y.right = element_line(color = "red"), axis.ticks.y.right = element_line(color = "red"), axis.text.y.right = element_text(color = "red"), axis.title.y.right = element_text(color = "red")) +
   geom_point(aes(x = year, y = cpue.kgh)) + 
   geom_line(aes(x = year, y = cpue.kgh)) + 
@@ -234,7 +234,7 @@ ggplot(comm.dat.combined) +
   geom_hline(data=median.cpue, aes(yintercept=median), linetype = "dashed", color = "black") +
   geom_hline(data=median.effort, aes(yintercept=median*8), linetype = "dashed", color = "red") +
   scale_y_continuous("Catch Rate (kg/h)", sec.axis = sec_axis(~./8, name = "Effort (1000h)")) + # 
-  scale_x_continuous("Year", breaks=seq(2002,fishingyear,4)) +
+  scale_x_continuous("Year", breaks=seq(2002,2026,6), limits = c(2000, 2027)) +
   facet_wrap(~area, labeller = as_labeller(facet_names))
 #save
 ggsave(filename = paste0(direct, "/",assessmentyear,"/Assessment/Figures/CommercialData/SFA29_CPUEandEffort_combined",fishingyear, ".png"), width = 24,height = 16,units='cm', dpi=400, device = "png")
@@ -401,7 +401,7 @@ histolog<-subset(logs, YEAR == fishingyear, c('ASSIGNED_AREA','CPUE_KG'))
 cpuehisto <- ggplot (histolog, aes (x = CPUE_KG)) +
   geom_histogram (breaks = seq (0, 200, by = 5), col = 'grey60') + labs (x = 'CPUE (kg/h)', y = 'Count') +
   facet_wrap (~ASSIGNED_AREA, ncol = 1) +
-  scale_x_continuous(breaks = seq (0, 200, by = 50)) +
+  scale_x_continuous(breaks = seq (0, 200, by = 20)) +
   theme_bw() +
   theme(panel.grid=element_blank())
 cpuehisto
